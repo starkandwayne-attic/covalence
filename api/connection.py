@@ -1,7 +1,9 @@
-from api import Base
+import api
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column,Integer,Text,ForeignKey,Boolean,Float
+import time
 
-class Connection(Base):
+class Connection(api.Base):
 
     __tablename__ = 'connection'
 
@@ -9,7 +11,7 @@ class Connection(Base):
     uuid = Column(Text)
     source_ip = Column(Text)
     source_port = Column(Text)
-    source_deployment_name = Column(Text)
+    source_deployment = Column(Text)
     source_job = Column(Text)
     source_index = Column(Integer)
     source_user = Column(Text)
@@ -35,7 +37,7 @@ class Connection(Base):
 
                     'ip': self.source_ip,
                     'port': self.source_port,
-                    'deployment_name': self.deployment_name,
+                    'deployment': self.source_deployment,
                     'job': self.source_job,
                     'index': self.source_index,
                     'user': self.source_user,
@@ -50,7 +52,9 @@ class Connection(Base):
                     'ip': self.destination_ip,
                     'port': self.destination_port
 
-                },
-                'connection_uuid': self.uuid
+                }
+            },
+            
+            'connection_uuid': self.uuid
 
         }
