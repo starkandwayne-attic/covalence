@@ -3,6 +3,7 @@ sys.dont_write_bytecode = True
 from flask import Flask, g, Blueprint, url_for, request, jsonify
 #import connection
 from sqlalchemy.ext.declarative import declarative_base
+from flask.ext.sqlalchemy import SQLAlchemy
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
@@ -15,12 +16,15 @@ api.config.from_object('config.Config')
 
 #Throws a warning if we don't set this.
 api.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(api)
 #We'll use this db instance throughout the API.
 
-engine = create_engine('postgresql://localhost:5432')
-Session = sessionmaker(bind=engine)
+#engine = create_engine('postgresql://localhost:5432')
+#Session = sessionmaker(bind=engine)
+
 Base = declarative_base()
-#Base.metadata.create_all(bind=engine)
+
 
 class Connection(Base):
 
@@ -78,12 +82,13 @@ class Connection(Base):
 
         }
 
+Base.metadata.create_all(bind=db.engine)
+
 
 @api.route('/connections',methods=['GET'])
 def get_connections():
 
-    db = Session()
-    connections = db.query(Connection).all()
+    connections = db.session.query(Connection).all()
     connection_list = []
     for con in connections:
 
@@ -95,12 +100,12 @@ def get_connections():
 @api.route('/connections',methods=['POST'])
 def create_connections():
 
-    db = Session()
+    
     params = request.json
     source = params['source']
     destination = params['destination']
 
-    new_connection = connection.Connection(
+    new_connection = Connection(
 
         source_ip = source['ip'],
         source_port = source['port'],
@@ -117,9 +122,11 @@ def create_connections():
 
         )
 
-    db.add(new_connection)
+    db.session.add(new_connection)
+    db.session.commit()
 
     return jsonify({"code":200,"message":"Resources created."})
+
 
 if __name__ == "__main__":
     
