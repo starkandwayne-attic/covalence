@@ -1,10 +1,9 @@
 import os
 import sys
-import httplib, urllib
-
+import requests
+api_url = "http://192.168.50.1:9201/connections"
 
 class Connection():
-
 
     def __init__(self,text):
 
@@ -70,40 +69,46 @@ class Connection():
 
        return  {
            "protocol": self.protocol,
-
-                "source":{
-
-                    "ip": self.source_ip,
-                    "port": self.source_port,
-                    "deployment": self.source_deployment,
-                    "job": self.source_job,
-                    "index": self.source_index,
-                    "user": self.source_user,
-                    "group": self.source_group,
-                    "pid": self.source_pid,
-                    "process_name": self.source_process_name,
-                    "age": self.age
-                    
-                },
-                "destination":{
-                    
-                    "ip":self.destination_ip,
-                    "port":self.destination_port
-                    
-                }
-                
-            }
-
+           
+           "source":{
+               
+               "ip": self.source_ip,
+               "port": self.source_port,
+               "deployment": self.source_deployment,
+               "job": self.source_job,
+               "index": self.source_index,
+               "user": self.source_user,
+               "group": self.source_group,
+               "pid": self.source_pid,
+               "process_name": self.source_process_name,
+               "age": self.source_age
+               
+           },
+           "destination":{
+               
+               "ip":self.destination_ip,
+               "port":self.destination_port
+               
+           }
+           
+       }
+       
 if __name__ == "__main__":
-
-#sudo netstat -e -e -n -p | grep -v unix | grep ESTABLISHED | grep -v 127.0.0.1
-
-    os.system("sudo netstat -e -e -n -p | grep -v unix | grep ESTABLISHED | grep -v 127.0.0.1 > netstat_output.txt")
+    
+    #sudo netstat -e -e -n -p | grep -v unix | grep ESTABLISHED | grep -v 127.0.0.1
+    
+    os.system("sudo netstat -e -e -n -p | grep -v unix | grep ESTABLISHED | grep tcp | grep -v 127.0.0.1 > netstat_output.txt")
     connection_list = []
     with open('netstat_output.txt') as net_file:
+
         for line in net_file:
             print "Creating Connection object from following line:"
             print line
             connection = Connection(line)
             connection.print_connection()
-            connection_list.append(connection)
+            connection_list.append(connection.serialize())
+
+    print connection_list[0]
+    response = requests.post(api_url,json=connection_list[0],headers={'Content-Type':'application/json'})
+    
+        
