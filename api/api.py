@@ -100,8 +100,9 @@ def get_connections():
 @api.route('/connections',methods=['POST'])
 def create_connections():
 
-    
+    print request.data
     params = request.json
+    print params
     source = params['source']
     destination = params['destination']
 
@@ -109,7 +110,7 @@ def create_connections():
 
         source_ip = source['ip'],
         source_port = source['port'],
-        source_deployment_name = source['deployment_name'],
+        source_deployment_name = source['deployment'],
         source_job = source['job'],
         source_index = source['index'],
         source_user = source['user'],
@@ -130,6 +131,6 @@ def create_connections():
 
 if __name__ == "__main__":
     
-    api.run(host='0.0.0.0',port=9201)
+    api.run(host='0.0.0.0',port=9201,debug=True)
 
 

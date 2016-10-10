@@ -1,14 +1,22 @@
 from flask import Flask
-from webapp import webapp
-from api import api
+from flask import render_template
 
 #Create and configure app object. 
-api = Flask(__name__,static_folder='webapp/static')
-api.config.from_object('config.Config')
+webapp = Flask(__name__,static_folder='static')
+webapp.config.from_object('config.Config')
 
-#Register webapp and API portions of app with the app object created above.
-api.register_blueprint(api,url_prefix='/api')
+@webapp.route('/',methods=['GET'])
+def index():
+
+    return render_template("index.html")
+
+
+@webapp.route('/login',methods=['GET'])
+def login():
+
+    return render_template("login.html")
 
 if __name__ == "__main__":
     
-    app.run(host='0.0.0.0',port=9200)
+    webapp.run(host='0.0.0.0',port=9200)
+

@@ -21,12 +21,12 @@ Body's JSON Format:
 ```
 [	
 		{
-
+		        "protocol": "tcp",
 			"source":{
 
 				"ip": "10.80.76.9",
 				"port": "5893",
-				"deployment_name": "asv-sb-cf-postgres",
+				"deployment": "asv-sb-cf-postgres",
 				"job": "secret-agent",
 				"index": 1,
 				"user": vcap,
@@ -43,13 +43,15 @@ Body's JSON Format:
 
 		    }
 
+     },
+
     {
 
                         "source":{
 
                                 "ip": "10.80.76.9",
                                 "port": "5893",
-                                "deployment_name": "asv-sb-cf-postgres",
+                                "deployment": "asv-sb-cf-postgres",
                                 "job": "secret-agent",
                                 "index": 1,
                                 "user": vcap,
@@ -104,7 +106,7 @@ Response JSON Format:
 No GET URL params. 
 
 Response JSON Format:
-(See POST => /connections section for keys availab
+(See POST => /connections section for keys available)
 ```
 [
 	{	
