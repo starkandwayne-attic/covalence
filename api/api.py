@@ -1,6 +1,6 @@
 import sys
 sys.dont_write_bytecode = True
-from flask import Flask, g, Blueprint, url_for, request, jsonify
+from flask import Flask, g, Blueprint, url_for, request, jsonify, render_template
 #import connection
 from sqlalchemy.ext.declarative import declarative_base
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -11,7 +11,7 @@ import time
 from sqlalchemy import Column,Integer,Text,ForeignKey,Boolean,Float
 
 #Create and configure app object. 
-api = Flask(__name__)
+api = Flask(__name__, static_folder='static')
 api.config.from_object('config.Config')
 
 #Throws a warning if we don't set this.
@@ -127,6 +127,17 @@ def create_connections():
     db.session.commit()
 
     return jsonify({"code":200,"message":"Resources created."})
+
+@api.route('/',methods=['GET'])
+def index():
+
+    return render_template("index.html")
+
+
+@api.route('/login',methods=['GET'])
+def login():
+
+    return render_template("login.html")
 
 
 if __name__ == "__main__":
