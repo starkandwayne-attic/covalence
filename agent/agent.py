@@ -1,7 +1,9 @@
 import os
 import sys
 import requests
+import time
 api_url = "http://192.168.50.1:9201/connections"
+update_period = 5
 
 class Connection():
 
@@ -92,15 +94,19 @@ class Connection():
            }
            
        }
-       
-if __name__ == "__main__":
-    
-    #sudo netstat -e -e -n -p | grep -v unix | grep ESTABLISHED | grep -v 127.0.0.1
-    
+
+
+def publish_connection_info():
+
     os.system("sudo netstat -e -e -n -p | grep -v unix | grep ESTABLISHED | grep tcp | grep -v 127.0.0.1 > netstat_output.txt")
     connection_list = []
-    with open('netstat_output.txt') as net_file:
 
+    print " "
+    print "##############################################"
+    print " "
+    
+    with open('netstat_output.txt') as net_file:
+        
         for line in net_file:
             print "Creating Connection object from following line:"
             print line
@@ -108,7 +114,18 @@ if __name__ == "__main__":
             connection.print_connection()
             connection_list.append(connection.serialize())
 
-    print connection_list[0]
-    response = requests.post(api_url,json=connection_list[0],headers={'Content-Type':'application/json'})
-    
-        
+        for conn in connection_list:
+            response = requests.post(api_url,json=conn,headers={'Content-Type':'application/json'})
+
+    print " "
+    print "###############################################"
+    print " "
+       
+if __name__ == "__main__":
+
+    while True:
+
+        publish_connection_info()
+        time.sleep(update_period)
+
+
