@@ -49,21 +49,25 @@ var intervalID = setInterval(function(){
 	
 	$.getJSON(apiUrlPrefix+'/connections',function(data){
 
+		covalenceJsonData = [];
 		connections = data.resource
-		$.each(connections,function(index,value){
+		console.log("START");
+       		$.each(connections,function(index,value){
 
       			new_connection = {"name":value.connection.destination.ip + ":" + 
 					  value.connection.destination.port, "size":124, "imports":[]};
 			covalenceJsonData.push(new_connection);
-		    });
+			
+			console.log("Adding an IP");
+			});
 		$.each(connections,function(index,value){
 
       			new_connection = {"name":value.connection.source.ip + ":" + 
 					  value.connection.source.port, "size":124, "imports":[value.connection.destination.ip +
 											       ":"+value.connection.destination.port]};
 			covalenceJsonData.push(new_connection);
+			console.log("Adding a connection");
 		    });
-
 
 		var classes = covalenceJsonData;
 		var nodes = cluster.nodes(packages.root(classes));
