@@ -100,9 +100,7 @@ def get_connections():
 @api.route('/connections',methods=['POST'])
 def create_connections():
 
-    print request.data
     params = request.json
-    print params
     source = params['source']
     destination = params['destination']
 
@@ -127,6 +125,13 @@ def create_connections():
     db.session.commit()
 
     return jsonify({"code":200,"message":"Resources created."})
+
+@api.route("/connections",methods=['DELETE'])
+def delete_connection():
+
+    params = request.json
+    uuid_to_delete = params["uuid"]
+    return jsonify({"code":200,"message":"Resource deleted."})
 
 @api.route('/',methods=['GET'])
 def index():

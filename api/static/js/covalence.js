@@ -51,22 +51,29 @@ var intervalID = setInterval(function(){
 
 		covalenceJsonData = [];
 		connections = data.resource
-		console.log("START");
        		$.each(connections,function(index,value){
 
-      			new_connection = {"name":value.connection.destination.ip + ":" + 
-					  value.connection.destination.port, "size":124, "imports":[]};
-			covalenceJsonData.push(new_connection);
-			
-			console.log("Adding an IP");
-			});
-		$.each(connections,function(index,value){
+			if( !nodeExists(value.connection.destination.ip) ){
 
-      			new_connection = {"name":value.connection.source.ip + ":" + 
-					  value.connection.source.port, "size":124, "imports":[value.connection.destination.ip +
-											       ":"+value.connection.destination.port]};
-			covalenceJsonData.push(new_connection);
-			console.log("Adding a connection");
+			    targetless_node = {"name":value.connection.destination.ip, "size":124, "imports":[]};
+			    covalenceJsonData.push(targetless_node);
+
+			}
+			if( !nodeExists(value.connection.source.ip) ){
+
+			    targetless_node = {"name":value.connection.source.ip, "size":124, "imports":[]};
+			    covalenceJsonData.push(targetless_node);
+
+			}
+
+			$.each(covalenceJsonData,function(i,node){
+				
+				if(node.name == value.connection.source.ip){
+				    node.imports.push(value.connection.destination.ip);
+				}
+
+			    });
+
 		    });
 
 		var classes = covalenceJsonData;
@@ -78,14 +85,14 @@ var intervalID = setInterval(function(){
 		var path = svg.selectAll("path.link")
 		.data(links)
 		.enter().append("svg:path")
-		.attr("class", function(d) { return "link source-" + d.source.key + " target-" + d.target.key; })
+		.attr("class", function(d) { return "link source-" + md5(d.source.key) + " target-" + md5(d.target.key); })
 		.attr("d", function(d, i) { return line(splines[i]); });
 		
 		svg.selectAll("g.node")
 		.data(nodes.filter(function(n) { return !n.children; }))
 		.enter().append("svg:g")
 		.attr("class", "node")
-		.attr("id", function(d) { return "node-" + d.key; })
+		.attr("id", function(d) { return "node-" + md5(d.key); })
 		.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
 		.append("svg:text")
 		.attr("dx", function(d) { return d.x < 180 ? 8 : -8; })
@@ -151,21 +158,22 @@ function mouseup() {
 }
 
 function mouseover(d) {
-    svg.selectAll("path.link.target-" + d.key)
+
+    svg.selectAll("path.link.target-" + md5(d.key))
 	.classed("target", true)
 	.each(updateNodes("source", true));
 
-    svg.selectAll("path.link.source-" + d.key)
+    svg.selectAll("path.link.source-" + md5(d.key))
 	.classed("source", true)
 	.each(updateNodes("target", true));
 }
 
 function mouseout(d) {
-    svg.selectAll("path.link.source-" + d.key)
+    svg.selectAll("path.link.source-" + md5(d.key))
 	.classed("source", false)
 	.each(updateNodes("target", false));
 
-    svg.selectAll("path.link.target-" + d.key)
+    svg.selectAll("path.link.target-" + md5(d.key))
 	.classed("target", false)
 	.each(updateNodes("source", false));
 }
@@ -173,7 +181,7 @@ function mouseout(d) {
 function updateNodes(name, value) {
     return function(d) {
 	if (value) this.parentNode.appendChild(this);
-	svg.select("#node-" + d[name].key).classed(name, value);
+	svg.select("#node-" + md5(d[name].key)).classed(name, value);
     };
 }
 
@@ -184,3 +192,21 @@ function cross(a, b) {
 function dot(a, b) {
     return a[0] * b[0] + a[1] * b[1];
 }
+
+
+function nodeExists(node_name){
+
+    var result = $.grep(covalenceJsonData, function(e){ return e.name == node_name; });
+    if(result.length > 0){
+	
+	return true;
+
+    }
+    else{
+	
+	return false;
+
+    }
+    
+
+} 

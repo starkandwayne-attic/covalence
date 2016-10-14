@@ -12,7 +12,8 @@
 		    if (name.length) {
 			node.parent = find(name.substring(0, 0));
 			node.parent.children.push(node);
-			node.key = name.substring(i + 1);
+			console.log(name);
+			node.key = name;
 		    }
 		}
 		return node;
