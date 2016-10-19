@@ -146,7 +146,10 @@ def login():
 
 
 if __name__ == "__main__":
+
+    if len(sys.argv) < 2:
+        print "Requires port number as argument." 
     
-    api.run(host='0.0.0.0',port=9201,debug=True)
+    api.run(host='0.0.0.0',port=int(sys.argv[1]),debug=True)
 
 

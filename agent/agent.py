@@ -2,7 +2,7 @@ import os
 import sys
 import requests
 import time
-api_url = "http://192.168.50.1:9201/connections"
+api_url = None
 update_period = 5
 
 class Connection():
@@ -115,7 +115,7 @@ def publish_connection_info():
             connection_list.append(connection.serialize())
 
         for conn in connection_list:
-            response = requests.post(api_url,json=conn,headers={'Content-Type':'application/json'})
+            response = requests.post(api_url+'/connections',json=conn,headers={'Content-Type':'application/json'})
 
     print " "
     print "###############################################"
@@ -123,6 +123,17 @@ def publish_connection_info():
        
 if __name__ == "__main__":
 
+    if len(sys.argv) < 3:
+
+        print "Covalence agent requires location of Covalence API as the first argument and reporting period (in seconds) for second argument"
+        print "Example: python agent.py http://localhost:9200 5"
+        sys.exit(1)
+
+    else:
+
+        api_url = sys.argv[1]
+        update_period = sys.argv[2]
+        
     while True:
 
         publish_connection_info()
