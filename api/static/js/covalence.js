@@ -47,7 +47,7 @@ var covalenceJsonData = [
 
 var intervalID = setInterval(function(){
 	
-	$.getJSON(apiUrlPrefix+'/connections',function(data){
+	$.getJSON('connections',function(data){
 
 		covalenceJsonData = [];
 		connections = data.resource
