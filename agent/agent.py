@@ -132,7 +132,7 @@ if __name__ == "__main__":
     else:
 
         api_url = sys.argv[1]
-        update_period = sys.argv[2]
+        update_period = float(sys.argv[2])
         
     while True:
 
