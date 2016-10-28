@@ -1,6 +1,7 @@
 import sys
 sys.dont_write_bytecode = True
 from flask import Flask, g, Blueprint, url_for, request, jsonify, render_template
+from sqlalchemy import and_
 #import connection
 from sqlalchemy.ext.declarative import declarative_base
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -89,6 +90,7 @@ Base.metadata.create_all(bind=db.engine)
 def get_connections():
 
     connections = db.session.query(Connection).all()
+
     connection_list = []
     for con in connections:
 
@@ -104,27 +106,33 @@ def create_connections():
     source = params['source']
     destination = params['destination']
 
-    new_connection = Connection(
+    connection_exists = db.session.query(Connection).filter(and_(Connection.source_ip == source['ip'], Connection.destination_ip == destination['ip'])).first()
+    if connection_exists:
 
-        source_ip = source['ip'],
-        source_port = source['port'],
-        source_deployment_name = source['deployment'],
-        source_job = source['job'],
-        source_index = source['index'],
-        source_user = source['user'],
-        source_group = source['group'],
-        source_pid = source['pid'],
-        source_process_name = source['process_name'],
-        source_age = source['age'],
-        destination_ip = destination['ip'],
-        destination_port = destination['port']
-
-        )
-
-    db.session.add(new_connection)
-    db.session.commit()
-
-    return jsonify({"code":200,"message":"Resources created."})
+        return jsonify({"code":200,"message":"Resource already exists."})
+        
+    else:
+        new_connection = Connection(
+            
+            source_ip = source['ip'],
+            source_port = source['port'],
+            source_deployment_name = source['deployment'],
+            source_job = source['job'],
+            source_index = source['index'],
+            source_user = source['user'],
+            source_group = source['group'],
+            source_pid = source['pid'],
+            source_process_name = source['process_name'],
+            source_age = source['age'],
+            destination_ip = destination['ip'],
+            destination_port = destination['port']
+            
+            )
+        
+        db.session.add(new_connection)
+        db.session.commit()
+        
+        return jsonify({"code":200,"message":"Resources created."})
 
 @api.route("/connections",methods=['DELETE'])
 def delete_connection():
