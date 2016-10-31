@@ -2,8 +2,13 @@ import os
 import sys
 import requests
 import time
+
 api_url = None
 update_period = 5
+
+job_name = None
+instance_id = None
+deployment_name = None
 
 class Connection():
 
@@ -12,9 +17,9 @@ class Connection():
         self.text_representation = ""
         self.source_ip = ""
         self.source_port = ""
-        self.source_deployment = ""
-        self.source_job = ""
-        self.source_index = 0
+        self.source_deployment = deployment_name
+        self.source_job = job_name
+        self.source_index = instance_id
         self.source_user = ""
         self.source_group = ""
         self.source_pid = ""
@@ -123,16 +128,20 @@ def publish_connection_info():
        
 if __name__ == "__main__":
 
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 6:
 
-        print "Covalence agent requires location of Covalence API as the first argument and reporting period (in seconds) for second argument"
-        print "Example: python agent.py http://localhost:9200 5"
+        print "Arguments: API URL, reporting period in seconds, instance name, instance number, deployment name"
+        print "Example: python agent.py http://localhost:9200 5 consul_z1 0 cloud-foundry"
         sys.exit(1)
 
     else:
 
         api_url = sys.argv[1]
         update_period = float(sys.argv[2])
+        job_name = sys.argv[3]
+        instance_id = int(sys.argv[4])
+        deployment_name = sys.argv[5]
+        
         
     while True:
 
