@@ -9,5 +9,5 @@ cd ${GOPATH}/src/${MODULE}
 go get github.com/Masterminds/glide
 glide install
 
-go vet -x ./...
+go vet $(go list ./... | grep -v vendor)
 go test -v ./...
