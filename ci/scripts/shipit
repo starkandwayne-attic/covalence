@@ -47,8 +47,7 @@ if [[ -d ${newgopath} ]]; then
 	PATH="${PATH}:${newgopath}/bin"
 fi
 echo ">> Using GOPATH ${GOPATH}"
-go get github.com/Masterminds/glide
-glide install
+godep restore
 go get github.com/mitchellh/gox
 popd
 
