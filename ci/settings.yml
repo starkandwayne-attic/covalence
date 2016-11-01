@@ -1,7 +1,7 @@
 ---
 meta:
   name:    covalence
-  release: Covalance
+  release: Covalence
   target:  sw
   url:     https://ci.vsphere.starkandwayne.com
 
@@ -14,9 +14,9 @@ meta:
   github:
     owner:  starkandwayne
     repo:   covalence
-    private_key:  (( vault "secret/pipelines/sherlock/github:private" ))
-    access_token: (( vault "secret/pipelines/sherlock/github:token" ))
+    private_key:  (( vault "secret/pipelines/covalence/github:private" ))
+    access_token: (( vault "secret/pipelines/covalence/github:token" ))
 
   slack:
-    webhook: (( vault "secret/pipelines/sherlock/slack:webhook" ))
+    webhook: (( vault "secret/pipelines/covalence/slack:webhook" ))
     channel: '#botspam'
