@@ -1,5 +1,0 @@
-#!/bin/bash
-
-echo "This goes to stderr" >&2
-cat
-exit $1

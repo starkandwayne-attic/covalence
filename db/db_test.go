@@ -2,13 +2,14 @@ package db_test
 
 import (
 	"database/sql"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
 	// sql drivers
 	_ "github.com/mattn/go-sqlite3"
 
-	. "github.com/starkandwayne/shield/db"
+	. "github.com/starkandwayne/covalence/db"
 )
 
 var _ = Describe("Database", func() {

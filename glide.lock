@@ -1,5 +1,5 @@
-hash: 1d02eaecaad2e621f26cbc640f6eaf3806c2739b0b07ba26fa56a4db41d22325
-updated: 2016-11-01T08:59:28.987304978-04:00
+hash: f6a5a633be9a9c4d394862d68557b19ec3cc82a29b1e4e3a71f51dd19d1e1bda
+updated: 2016-11-01T09:29:10.219285981-04:00
 imports:
 - name: github.com/drael/GOnetstat
   version: a08125f5157d481dd0d0355c021467bd8c84eb6d
@@ -22,14 +22,9 @@ imports:
 - name: github.com/pborman/uuid
   version: a97ce2ca70fa5a848076093f05e639a89ca34d06
 - name: github.com/starkandwayne/goutils
-  version: 2f0992d84ce9e238c6f137d396915bd57b3f6dae
+  version: 1c0ce1eaa4e29f94b6727019224b3803460c7256
   subpackages:
   - log
-- name: github.com/starkandwayne/shield
-  version: ccba84896046a77d14aa2685ac5e3336b9ddf114
-  subpackages:
-  - db
-  - timespec
   - timestamp
 - name: github.com/voxelbrain/goptions
   version: 26cb8b04692384f4dc269de3b5fcf3e2ef78573e
