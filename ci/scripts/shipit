@@ -57,8 +57,6 @@ fi
 
 pushd $REPO_ROOT
 mkdir artifacts
-gox -osarch="${TARGETS}" --output="artifacts/${BINARY}-{{.OS}}-{{.Arch}}" -ldflags="-X main.Version=${VERSION}" $(glide novendor)
-
 if [[ -f Makefile ]]; then
 	export VERSION TARGETS
 	make release
