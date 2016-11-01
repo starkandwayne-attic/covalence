@@ -6,7 +6,8 @@ export GOPATH=${PWD}/gopath
 export PATH=${PATH}:${GOPATH}/bin
 cd ${GOPATH}/src/${MODULE}
 
-godep restore
+go get github.com/Masterminds/glide
+glide install
 
 go vet -x ./...
 go test -v ./...
