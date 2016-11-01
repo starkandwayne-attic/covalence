@@ -20,7 +20,7 @@ meta:
   image:    (( concat "docker:///starkandwayne/concourse-go#" meta.go.version ))
 
   go:
-    version: 1.7-rc
+    version: 1.7
     module:  (( concat "github.com/" meta.github.owner "/" meta.github.repo ))
     cmd_module: (( grab meta.go.module ))
     binary:  (( grab meta.github.repo ))
