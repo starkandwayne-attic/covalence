@@ -60,7 +60,7 @@ func (f *ConnectionFilter) Query() (string, []interface{}) {
 		SELECT DISTINCT uuid, source_ip, source_port, source_deployment,
 		                source_job, source_index, source_user, source_group,
 										source_pid, source_process_name, source_age, destination_ip,
-										destination_port
+										destination_port, created_at
 			FROM connections
 			WHERE ` + strings.Join(wheres, " AND ") + `
 			GROUP BY uuid
@@ -84,12 +84,16 @@ func (db *DB) GetAllConnections(filter *ConnectionFilter) ([]*Connection, error)
 	for r.Next() {
 		ann := &Connection{}
 		var this NullUUID
+		var createdAt *int64
 		if err = r.Scan(&this, &ann.Source.IP, &ann.Source.Port, &ann.Source.Deployment, &ann.Source.Job,
 			&ann.Source.Index, &ann.Source.User, &ann.Source.Group, &ann.Source.Pid, &ann.Source.ProcessName,
-			&ann.Source.Age, &ann.Destination.IP, &ann.Destination.Port); err != nil {
+			&ann.Source.Age, &ann.Destination.IP, &ann.Destination.Port, &createdAt); err != nil {
 			return l, err
 		}
 		ann.UUID = this.UUID
+		if createdAt != nil {
+			ann.CreatedAt = parseEpochTime(*createdAt)
+		}
 
 		l = append(l, ann)
 	}

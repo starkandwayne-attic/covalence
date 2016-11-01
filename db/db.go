@@ -3,10 +3,16 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/starkandwayne/goutils/log"
+	. "github.com/starkandwayne/goutils/timestamp"
 )
+
+func parseEpochTime(et int64) Timestamp {
+	return NewTimestamp(time.Unix(et, 0).UTC())
+}
 
 type DB struct {
 	connection *sqlx.DB

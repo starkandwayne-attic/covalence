@@ -49,7 +49,10 @@ func (c ConnectionHandler) create(w http.ResponseWriter, req *http.Request) {
 }
 
 func (c ConnectionHandler) get(w http.ResponseWriter, req *http.Request) {
-	connections, err := c.Data.GetAllConnections(&db.ConnectionFilter{})
+	connections, err := c.Data.GetAllConnections(&db.ConnectionFilter{
+		Before: paramUnixTime(req, "before"),
+		After:  paramUnixTime(req, "after"),
+	})
 	if err != nil {
 		c.respond(w, http.StatusInternalServerError, ErrorResponse{
 			Description: err.Error(),

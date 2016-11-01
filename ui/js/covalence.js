@@ -46,8 +46,9 @@ var covalenceJsonData = [
 ];
 
 var intervalID = setInterval(function(){
+  timeOffset = Math.floor(Date.now() / 1000) - 35;
 
-	$.getJSON('connections',function(data){
+	$.getJSON('connections?after=' + timeOffset,function(data){
 		covalenceJsonData = [];
        		$.each(data,function(index,value){
 
