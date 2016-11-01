@@ -46,7 +46,7 @@ func ValidateEffectiveUnix(effective time.Time) int64 {
 }
 
 func (f *ConnectionFilter) Query() (string, []interface{}) {
-	var wheres []string = []string{}
+	var wheres []string = []string{"uuid = uuid"}
 	var args []interface{}
 	if f.Before != nil {
 		wheres = append(wheres, "created_at <= ?")
