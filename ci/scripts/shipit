@@ -58,8 +58,6 @@ fi
 pushd $REPO_ROOT
 mkdir artifacts
 gox -osarch="${TARGETS}" --output="artifacts/${BINARY}-{{.OS}}-{{.Arch}}" -ldflags="-X main.Version=${VERSION}" $(glide novendor)
-go build -o "${BINARY}" -ldflags="-X main.Version=${VERSION}" ${CMD_PKG:-.}
-./${BINARY} -v
 popd
 
 if [[ -f Makefile ]]; then
