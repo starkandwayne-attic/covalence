@@ -1,0 +1,4 @@
+---
+database_type: my-driver
+database_dsn:  my:dsn=database
+listen_addr: :8988
