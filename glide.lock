@@ -1,5 +1,5 @@
-hash: 8ebab6c3efe4f4eacaa17fa957f03303e144868e2e7eb81570a49ffacebd2e3b
-updated: 2016-11-01T09:35:14.799384813-04:00
+hash: ebc4ba693da1fb91c928962ebcbda20093eebc0f72b98ffa375a40552509d1fc
+updated: 2016-11-01T10:10:13.697856539-04:00
 imports:
 - name: github.com/drael/GOnetstat
   version: a08125f5157d481dd0d0355c021467bd8c84eb6d
@@ -21,6 +21,19 @@ imports:
   version: 3a115632dcd687f9c8cd01679c83a06a0e21c1f3
 - name: github.com/mattn/go-sqlite3
   version: 3b3f1d01b2696af5501697c35629048c227586ab
+- name: github.com/onsi/gomega
+  version: ff4bc6b6f9f5affa66635cd04d31d2a7ee21ffd6
+  subpackages:
+  - format
+  - internal/assertion
+  - internal/asyncassertion
+  - internal/testingtsupport
+  - matchers
+  - matchers/support/goraph/bipartitegraph
+  - matchers/support/goraph/edge
+  - matchers/support/goraph/node
+  - matchers/support/goraph/util
+  - types
 - name: github.com/pborman/uuid
   version: a97ce2ca70fa5a848076093f05e639a89ca34d06
 - name: github.com/starkandwayne/goutils
@@ -49,17 +62,4 @@ testImports:
   - internal/writer
   - reporters
   - reporters/stenographer
-  - types
-- name: github.com/onsi/gomega
-  version: a78ae492d53aad5a7a232d0d0462c14c400e3ee7
-  subpackages:
-  - format
-  - internal/assertion
-  - internal/asyncassertion
-  - internal/testingtsupport
-  - matchers
-  - matchers/support/goraph/bipartitegraph
-  - matchers/support/goraph/edge
-  - matchers/support/goraph/node
-  - matchers/support/goraph/util
   - types
