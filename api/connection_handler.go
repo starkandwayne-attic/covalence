@@ -46,6 +46,7 @@ func (c ConnectionHandler) create(w http.ResponseWriter, req *http.Request) {
 	c.respond(w, http.StatusOK, MessageResponse{
 		Message: "Resources created.",
 	})
+	return
 }
 
 func (c ConnectionHandler) get(w http.ResponseWriter, req *http.Request) {
@@ -69,6 +70,6 @@ func (c ConnectionHandler) respond(w http.ResponseWriter, status int, response i
 	encoder := json.NewEncoder(w)
 	err := encoder.Encode(response)
 	if err != nil {
-		log.Errorf("unable to encode response %s", response)
+		log.Errorf("unable to encode response %s", "")
 	}
 }

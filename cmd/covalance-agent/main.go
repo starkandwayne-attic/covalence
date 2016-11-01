@@ -47,7 +47,8 @@ func readConfig(path string) (Config, error) {
 func sendConnections(apiURL string, connections []db.Connection) error {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(connections)
-	_, err := http.Post(apiURL+"/connections", "application/json; charset=utf-8", b)
+	resp, err := http.Post(apiURL+"/connections", "application/json; charset=utf-8", b)
+	defer resp.Body.Close()
 	return err
 }
 
