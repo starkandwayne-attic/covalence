@@ -11,15 +11,21 @@ var splines = [];
 
 var cluster = d3.layout.cluster()
     .size([360, ry - 120])
-    .sort(function(a, b) { return d3.ascending(a.key, b.key); });
+    .sort(function(a, b) {
+        return d3.ascending(a.key, b.key);
+    });
 
 var bundle = d3.layout.bundle();
 
 var line = d3.svg.line.radial()
     .interpolate("bundle")
     .tension(.85)
-    .radius(function(d) { return d.y; })
-    .angle(function(d) { return d.x / 180 * Math.PI; });
+    .radius(function(d) {
+        return d.y;
+    })
+    .angle(function(d) {
+        return d.x / 180 * Math.PI;
+    });
 
 // Chrome 15 bug: <http://code.google.com/p/chromium/issues/detail?id=98951>
 var div = d3.select("body").insert("div", "h2")
@@ -45,72 +51,100 @@ var covalenceJsonData = [
 
 ];
 
-var intervalID = setInterval(function(){
-  timeOffset = Math.floor(Date.now() / 1000) - 35;
+var intervalID = setInterval(function() {
+    timeOffset = Math.floor(Date.now() / 1000) - 35;
 
-	$.getJSON('connections?after=' + timeOffset,function(data){
-		covalenceJsonData = [];
-       		$.each(data,function(index,value){
+    $.getJSON('connections?after=' + timeOffset, function(data) {
+        covalenceJsonData = [];
+        $.each(data, function(index, value) {
 
-			if( !nodeExists(value.destination.ip) ){
+            if (!nodeExists(value.destination.ip)) {
 
-			    targetless_node = {"name":value.destination.ip, "size":124, "imports":[]};
-			    covalenceJsonData.push(targetless_node);
+                targetless_node = {
+                    "name": value.destination.ip,
+                    "size": 124,
+                    "imports": []
+                };
+                covalenceJsonData.push(targetless_node);
 
-			}
-			if( !nodeExists(value.source.ip) ){
+            }
+            if (!nodeExists(value.source.ip)) {
 
-			    targetless_node = {"name":value.source.ip, "size":124, "imports":[]};
-			    covalenceJsonData.push(targetless_node);
+                targetless_node = {
+                    "name": value.source.ip,
+                    "size": 124,
+                    "imports": []
+                };
+                covalenceJsonData.push(targetless_node);
 
-			}
+            }
 
-			$.each(covalenceJsonData,function(i,node){
+            $.each(covalenceJsonData, function(i, node) {
 
-				if(node.name == value.source.ip){
-				    node.imports.push(value.destination.ip);
-				}
+                if (node.name == value.source.ip) {
+                    node.imports.push(value.destination.ip);
+                }
 
-			    });
+            });
 
-		    });
+        });
 
-		var classes = covalenceJsonData;
-		var nodes = cluster.nodes(packages.root(classes));
-		var links = packages.imports(nodes);
+        var classes = covalenceJsonData;
+        var nodes = cluster.nodes(packages.root(classes));
+        var links = packages.imports(nodes);
 
-		var splines = bundle(links);
+        var splines = bundle(links);
 
-		var path = svg.selectAll("path.link")
-		.data(links)
-		.enter().append("svg:path")
-		.attr("class", function(d) { return "link source-" + md5(d.source.key) + " target-" + md5(d.target.key); })
-		.attr("d", function(d, i) { return line(splines[i]); });
+        var path = svg.selectAll("path.link")
+            .data(links)
+            .enter().append("svg:path")
+            .attr("class", function(d) {
+                return "link source-" + md5(d.source.key) + " target-" + md5(d.target.key);
+            })
+            .attr("d", function(d, i) {
+                return line(splines[i]);
+            });
 
-		svg.selectAll("g.node")
-		.data(nodes.filter(function(n) { return !n.children; }))
-		.enter().append("svg:g")
-		.attr("class", "node")
-		.attr("id", function(d) { return "node-" + md5(d.key); })
-		.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
-		.append("svg:text")
-		.attr("dx", function(d) { return d.x < 180 ? 8 : -8; })
-		.attr("dy", ".31em")
-		.attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-		.attr("transform", function(d) { return d.x < 180 ? null : "rotate(180)"; })
-		.text(function(d) { return d.key; })
-		.on("mouseover", mouseover)
-		.on("mouseout", mouseout);
+        svg.selectAll("g.node")
+            .data(nodes.filter(function(n) {
+                return !n.children;
+            }))
+            .enter().append("svg:g")
+            .attr("class", "node")
+            .attr("id", function(d) {
+                return "node-" + md5(d.key);
+            })
+            .attr("transform", function(d) {
+                return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
+            })
+            .append("svg:text")
+            .attr("dx", function(d) {
+                return d.x < 180 ? 8 : -8;
+            })
+            .attr("dy", ".31em")
+            .attr("text-anchor", function(d) {
+                return d.x < 180 ? "start" : "end";
+            })
+            .attr("transform", function(d) {
+                return d.x < 180 ? null : "rotate(180)";
+            })
+            .text(function(d) {
+                return d.key;
+            })
+            .on("mouseover", mouseover)
+            .on("mouseout", mouseout);
 
-		d3.select("input[type=range]").on("change", function() {
-			line.tension(this.value / 100);
-			path.attr("d", function(d, i) { return line(splines[i]); });
-		    });
+        d3.select("input[type=range]").on("change", function() {
+            line.tension(this.value / 100);
+            path.attr("d", function(d, i) {
+                return line(splines[i]);
+            });
+        });
 
 
-	    });
+    });
 
-    },1000);
+}, 1000);
 
 
 d3.select(window)
@@ -128,59 +162,65 @@ function mousedown() {
 
 function mousemove() {
     if (m0) {
-	var m1 = mouse(d3.event),
-	    dm = Math.atan2(cross(m0, m1), dot(m0, m1)) * 180 / Math.PI;
-	div.style("-webkit-transform", "translateY(" + (ry - rx) + "px)rotateZ(" + dm + "deg)translateY("
-		  + (rx - ry) + "px)");
+        var m1 = mouse(d3.event),
+            dm = Math.atan2(cross(m0, m1), dot(m0, m1)) * 180 / Math.PI;
+        div.style("-webkit-transform", "translateY(" + (ry - rx) + "px)rotateZ(" + dm + "deg)translateY(" +
+            (rx - ry) + "px)");
     }
 }
 
 function mouseup() {
     if (m0) {
-	var m1 = mouse(d3.event),
-	    dm = Math.atan2(cross(m0, m1), dot(m0, m1)) * 180 / Math.PI;
+        var m1 = mouse(d3.event),
+            dm = Math.atan2(cross(m0, m1), dot(m0, m1)) * 180 / Math.PI;
 
-	rotate += dm;
-	if (rotate > 360) rotate -= 360;
-	else if (rotate < 0) rotate += 360;
-	m0 = null;
+        rotate += dm;
+        if (rotate > 360) rotate -= 360;
+        else if (rotate < 0) rotate += 360;
+        m0 = null;
 
-	div.style("-webkit-transform", null);
+        div.style("-webkit-transform", null);
 
-    svg
-        .attr("transform", "translate(" + rx + "," + ry + ")rotate(" + rotate + ")")
-	.selectAll("g.node text")
-        .attr("dx", function(d) { return (d.x + rotate) % 360 < 180 ? 8 : -8; })
-        .attr("text-anchor", function(d) { return (d.x + rotate) % 360 < 180 ? "start" : "end"; })
-        .attr("transform", function(d) { return (d.x + rotate) % 360 < 180 ? null : "rotate(180)"; } );
+        svg
+            .attr("transform", "translate(" + rx + "," + ry + ")rotate(" + rotate + ")")
+            .selectAll("g.node text")
+            .attr("dx", function(d) {
+                return (d.x + rotate) % 360 < 180 ? 8 : -8;
+            })
+            .attr("text-anchor", function(d) {
+                return (d.x + rotate) % 360 < 180 ? "start" : "end";
+            })
+            .attr("transform", function(d) {
+                return (d.x + rotate) % 360 < 180 ? null : "rotate(180)";
+            });
     }
 }
 
 function mouseover(d) {
 
     svg.selectAll("path.link.target-" + md5(d.key))
-	.classed("target", true)
-	.each(updateNodes("source", true));
+        .classed("target", true)
+        .each(updateNodes("source", true));
 
     svg.selectAll("path.link.source-" + md5(d.key))
-	.classed("source", true)
-	.each(updateNodes("target", true));
+        .classed("source", true)
+        .each(updateNodes("target", true));
 }
 
 function mouseout(d) {
     svg.selectAll("path.link.source-" + md5(d.key))
-	.classed("source", false)
-	.each(updateNodes("target", false));
+        .classed("source", false)
+        .each(updateNodes("target", false));
 
     svg.selectAll("path.link.target-" + md5(d.key))
-	.classed("target", false)
-	.each(updateNodes("source", false));
+        .classed("target", false)
+        .each(updateNodes("source", false));
 }
 
 function updateNodes(name, value) {
     return function(d) {
-	if (value) this.parentNode.appendChild(this);
-	svg.select("#node-" + md5(d[name].key)).classed(name, value);
+        if (value) this.parentNode.appendChild(this);
+        svg.select("#node-" + md5(d[name].key)).classed(name, value);
     };
 }
 
@@ -193,17 +233,18 @@ function dot(a, b) {
 }
 
 
-function nodeExists(node_name){
+function nodeExists(node_name) {
 
-    var result = $.grep(covalenceJsonData, function(e){ return e.name == node_name; });
-    if(result.length > 0){
+    var result = $.grep(covalenceJsonData, function(e) {
+        return e.name == node_name;
+    });
+    if (result.length > 0) {
 
-	return true;
+        return true;
 
-    }
-    else{
+    } else {
 
-	return false;
+        return false;
 
     }
 
