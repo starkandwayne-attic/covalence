@@ -41,19 +41,19 @@ func (s v1Schema) Deploy(db *DB) error {
 	case "sqlite3":
 		err = db.Exec(`CREATE TABLE connections (
               uuid      UUID PRIMARY KEY,
-							 source_ip            TEXT,
+							source_ip            TEXT,
               source_port          TEXT,
               source_deployment    TEXT,
               source_job           TEXT,
-							 source_index         INTEGER,
+							source_index         INTEGER,
               source_user          TEXT,
               source_group         TEXT,
               source_pid           TEXT,
-							 source_process_name  TEXT,
+							source_process_name  TEXT,
               source_age           INTEGER,
-							 destination_ip       TEXT,
+						  destination_ip       TEXT,
               destination_port     TEXT,
-							 created_at           INTEGER
+					  	created_at           INTEGER
             )`)
 	case "postgres":
 		err = db.Exec(`CREATE TABLE connections (
@@ -108,8 +108,8 @@ func (s v1Schema) Deploy(db *DB) error {
 
 									 -- Table permissions are not inherited from the parent.
 									 -- If permissions change on the master be sure to change them on the child also.
-									 EXECUTE 'ALTER TABLE public.' || quote_ident(_tablename) || ' OWNER TO postgres';
-									 EXECUTE 'GRANT ALL ON TABLE public.' || quote_ident(_tablename) || ' TO postgres';
+									 -- EXECUTE 'ALTER TABLE public.' || quote_ident(_tablename) || ' OWNER TO postgres';
+									 -- EXECUTE 'GRANT ALL ON TABLE public.' || quote_ident(_tablename) || ' TO postgres';
 
 									 -- Indexes are defined per child, so we assign a default index that uses the partition columns
 									 EXECUTE 'CREATE INDEX ' || quote_ident(_tablename||'_indx1') || ' ON public.' || quote_ident(_tablename) || ' (created_at, uuid)';
