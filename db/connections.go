@@ -140,7 +140,7 @@ func (db *DB) CreateConnection(sourceIP, sourcePort, sourceDeployment, sourceJob
 			destination_port, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 		id.String(), sourceIP, sourcePort, sourceDeployment, sourceJob, sourceIndex,
 		sourceUser, sourceGroup, sourcePid, sourceProcessName, sourceAge, destinationIP,
-		destinationIP, time.Now().Unix())
+		destinationPort, time.Now().Unix())
 }
 
 func (db *DB) DeleteConnection(id uuid.UUID) (bool, error) {

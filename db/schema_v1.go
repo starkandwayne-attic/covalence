@@ -38,6 +38,23 @@ func (s v1Schema) Deploy(db *DB) error {
 							 created_at           INTEGER,
                PRIMARY KEY (uuid)
              )`)
+	case "sqlite3":
+		err = db.Exec(`CREATE TABLE connections (
+              uuid      UUID PRIMARY KEY,
+							 source_ip            TEXT,
+              source_port          TEXT,
+              source_deployment    TEXT,
+              source_job           TEXT,
+							 source_index         INTEGER,
+              source_user          TEXT,
+              source_group         TEXT,
+              source_pid           TEXT,
+							 source_process_name  TEXT,
+              source_age           INTEGER,
+							 destination_ip       TEXT,
+              destination_port     TEXT,
+							 created_at           INTEGER
+            )`)
 	case "postgres":
 		err = db.Exec(`CREATE TABLE connections (
 									 uuid      UUID PRIMARY KEY,
