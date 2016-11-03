@@ -1,8 +1,8 @@
 BUILD_TYPE?=build
 
 covalence:
-	go $(BUILD_TYPE) ./cmd/covalance-api
-	go $(BUILD_TYPE) ./cmd/covalance-agent
+	go $(BUILD_TYPE) ./cmd/covalence-api
+	go $(BUILD_TYPE) ./cmd/covalence-agent
 
 
 ARTIFACTS := artifacts/covalence-{{.OS}}-{{.Arch}}
@@ -17,7 +17,7 @@ release:
 	@echo "OK.  TARGETS='$(TARGETS)'"
 
 
-	gox -osarch="$(TARGETS)" -ldflags="$(LDFLAGS)" --output="$(ARTIFACTS)/covalance-api"      ./cmd/covalance-api
-	gox -osarch="$(TARGETS)" -ldflags="$(LDFLAGS)" --output="$(ARTIFACTS)/covalance-agent"    ./cmd/covalance-agent
+	gox -osarch="$(TARGETS)" -ldflags="$(LDFLAGS)" --output="$(ARTIFACTS)/covalance-api"      ./cmd/covalence-api
+	gox -osarch="$(TARGETS)" -ldflags="$(LDFLAGS)" --output="$(ARTIFACTS)/covalance-agent"    ./cmd/covalence-agent
 
 	cd artifacts && for x in covalence-*; do cp -a ../ui/ $$x/ui; tar -czvf $$x.tar.gz $$x; rm -r $$x;  done

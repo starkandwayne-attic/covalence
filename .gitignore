@@ -1,3 +1,7 @@
 *.pyc
 .DS_Store
 artifacts
+covalence-agent
+covalence-api
+!covalence-api/
+!covalence-agent/
