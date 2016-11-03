@@ -25,7 +25,7 @@ type ConnectionHandler struct {
 func (c ConnectionHandler) create(w http.ResponseWriter, req *http.Request) {
 	var connections []db.Connection
 	if err := json.NewDecoder(req.Body).Decode(&connections); err != nil {
-		c.respond(w, http.StatusUnprocessableEntity, ErrorResponse{
+		respond(w, http.StatusUnprocessableEntity, ErrorResponse{
 			Description: err.Error(),
 		})
 		fmt.Println(err)
@@ -37,13 +37,13 @@ func (c ConnectionHandler) create(w http.ResponseWriter, req *http.Request) {
 			connection.Source.Age, connection.Destination.IP, connection.Destination.Port)
 		if err != nil {
 			log.Errorf("unable to create connection: %s", err.Error())
-			c.respond(w, http.StatusInternalServerError, ErrorResponse{
+			respond(w, http.StatusInternalServerError, ErrorResponse{
 				Description: err.Error(),
 			})
 			return
 		}
 	}
-	c.respond(w, http.StatusOK, MessageResponse{
+	respond(w, http.StatusOK, MessageResponse{
 		Message: "Resources created.",
 	})
 	return
@@ -55,12 +55,12 @@ func (c ConnectionHandler) get(w http.ResponseWriter, req *http.Request) {
 		After:  paramUnixTime(req, "after"),
 	})
 	if err != nil {
-		c.respond(w, http.StatusInternalServerError, ErrorResponse{
+		respond(w, http.StatusInternalServerError, ErrorResponse{
 			Description: err.Error(),
 		})
 		return
 	}
-	c.respond(w, http.StatusOK, connections)
+	respond(w, http.StatusOK, connections)
 }
 
 func (c ConnectionHandler) respond(w http.ResponseWriter, status int, response interface{}) {

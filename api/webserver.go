@@ -23,10 +23,12 @@ func (ws *WebServer) Setup() error {
 	}
 
 	connectionHandler := ConnectionHandler{Data: ws.Database}
+	vmHandler := VMHandler{Data: ws.Database}
 
 	r := mux.NewRouter()
 	r.HandleFunc("/connections", connectionHandler.create).Methods("POST")
 	r.HandleFunc("/connections", connectionHandler.get).Methods("GET")
+	r.HandleFunc("/vms", vmHandler.get).Methods("GET")
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir(ws.WebRoot)))
 	http.Handle("/", r)
 	return nil
