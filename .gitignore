@@ -5,3 +5,4 @@ covalence-agent
 covalence-api
 !covalence-api/
 !covalence-agent/
+.vagrant

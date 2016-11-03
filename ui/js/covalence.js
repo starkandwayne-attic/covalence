@@ -1,7 +1,7 @@
 var apiUrlPrefix = "http://localhost:9201";
 
-var w = 1280,
-    h = 800,
+var w = 480,
+    h = 500,
     rx = w / 2,
     ry = h / 2,
     m0,
@@ -28,12 +28,12 @@ var line = d3.svg.line.radial()
     });
 
 // Chrome 15 bug: <http://code.google.com/p/chromium/issues/detail?id=98951>
-var div = d3.select("body").insert("div", "h2")
-    .style("top", "-80px")
-    .style("left", "-160px")
+var div = d3.select("div.d3").insert("div", "h2")
+    .style("top", "0px")
+    .style("left", "0px")
     .style("width", w + "px")
     .style("height", w + "px")
-    .style("position", "absolute")
+    .style("position", "relative")
     .style("-webkit-backface-visibility", "hidden");
 
 var svg = div.append("svg:svg")
