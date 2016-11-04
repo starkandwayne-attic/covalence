@@ -1,100 +1,43 @@
-body {
-  font: 300 36px "Helvetica Neue";
-  height: 640px;
-  margin: 80px 160px 80px 160px;
-  overflow: hidden;
-  position: relative;
-  width: 960px;
+.node {
+  font: 300 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  fill: #bbb;
 }
 
-a:link, a:visited {
-  color: #777;
-  text-decoration: none;
+.node:hover {
+  fill: #000;
 }
 
-a:hover {
-  color: #666;
+.link {
+  stroke: steelblue;
+  stroke-opacity: .4;
+  fill: none;
+  pointer-events: none;
 }
 
-blockquote {
-  margin: 0;
+.node:hover,
+.node--source,
+.node--target {
+  font-weight: 700;
 }
 
-blockquote:before {
-  content: "“";
-  position: absolute;
-  left: -.4em;
+.node--source {
+  fill: #2ca02c;
 }
 
-blockquote:after {
-  content: "”";
-  position: absolute;
+.node--target {
+  fill: #d62728;
 }
 
-body > ul {
-  margin: 0;
-  padding: 0;
+.link--source,
+.link--target {
+  stroke-opacity: 1;
+  stroke-width: 2px;
 }
 
-h1 {
-  font-size: 64px;
+.link--source {
+  stroke: #d62728;
 }
 
-h1, h2, h3 {
-  font-weight: inherit;
-  margin: 0;
-}
-
-h2, h3 {
-  text-align: right;
-  font-size: inherit;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-
-h2 {
-  font-size: 24px;
-  position: absolute;
-}
-
-h3 {
-  bottom: -20px;
-  font-size: 18px;
-}
-
-.invert {
-  background: #1f1f1f;
-  color: #dcdccc;
-}
-
-.invert h2, .invert h3 {
-  color: #7f9f7f;
-}
-
-.string, .regexp {
-  color: #f39;
-}
-
-.keyword {
-  color: #00c;
-}
-
-.comment {
-  color: #777;
-  font-style: oblique;
-}
-
-.number {
-  color: #369;
-}
-
-.class, .special {
-  color: #1181B8;
-}
-
-body > svg {
-  position: absolute;
-  top: -80px;
-  left: -160px;
+.link--target {
+  stroke: #2ca02c;
 }

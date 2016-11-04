@@ -1,7 +1,7 @@
 var apiUrlPrefix = "http://localhost:9201";
 
-var w = 480,
-    h = 500,
+var w = 680,
+    h = 800,
     rx = w / 2,
     ry = h / 2,
     m0,

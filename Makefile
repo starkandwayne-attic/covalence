@@ -16,8 +16,8 @@ release:
 	@test -n "$(TARGETS)"
 	@echo "OK.  TARGETS='$(TARGETS)'"
 
-
-	gox -osarch="$(TARGETS)" -ldflags="$(LDFLAGS)" --output="$(ARTIFACTS)/covalance-api"      ./cmd/covalence-api
-	gox -osarch="$(TARGETS)" -ldflags="$(LDFLAGS)" --output="$(ARTIFACTS)/covalance-agent"    ./cmd/covalence-agent
+  rm -rf artifacts
+	gox -osarch="$(TARGETS)" -ldflags="$(LDFLAGS)" --output="$(ARTIFACTS)/covalence-api"      ./cmd/covalence-api
+	gox -osarch="$(TARGETS)" -ldflags="$(LDFLAGS)" --output="$(ARTIFACTS)/covalence-agent"    ./cmd/covalence-agent
 
 	cd artifacts && for x in covalence-*; do cp -a ../ui/ $$x/ui; tar -czvf $$x.tar.gz $$x; rm -r $$x;  done

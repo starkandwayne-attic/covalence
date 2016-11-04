@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/coreos/go-log/log"
+	"github.com/starkandwayne/goutils/log"
 )
 
 func paramUnixTime(req *http.Request, name string) *time.Time {
