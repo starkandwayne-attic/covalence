@@ -15,8 +15,7 @@ release:
 	@echo "Checking that TARGETS was defined in the calling environment"
 	@test -n "$(TARGETS)"
 	@echo "OK.  TARGETS='$(TARGETS)'"
-
-  rm -rf artifacts
+	rm -rf artifacts
 	gox -osarch="$(TARGETS)" -ldflags="$(LDFLAGS)" --output="$(ARTIFACTS)/covalence-api"      ./cmd/covalence-api
 	gox -osarch="$(TARGETS)" -ldflags="$(LDFLAGS)" --output="$(ARTIFACTS)/covalence-agent"    ./cmd/covalence-agent
 
