@@ -1,0 +1,40 @@
+<section class="section">
+
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-3">
+                    <aside class="panel">
+                        <p class="panel-heading">
+                            Deployments
+                        </p>
+                        <label class="panel-block" ng-repeat="deployment in deployments">
+                            <input type="checkbox"> {{deployment}}
+                        </label>
+                        <div class="panel-block">
+                          <button class="button is-primary is-outlined is-fullwidth">
+                            Reset all filters
+                          </button>
+                        </div>
+                        <p class="panel-heading">
+                            Jobs
+                        </p>
+                        <label class="panel-block" ng-repeat="vm in vms">
+                            <input type="checkbox"> {{vm.job_name}}/{{vm.index}}
+                        </label>
+                        <div class="panel-block">
+                          <button class="button is-primary is-outlined is-fullwidth">
+                            Reset all filters
+                          </button>
+                        </div>
+                    </aside>
+                </div>
+                <div class="column">
+                    <div name="d3" class="d3">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

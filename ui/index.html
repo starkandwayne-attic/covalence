@@ -48,7 +48,7 @@
         }
 
         .link.target {
-            stroke: #2ca02c;
+            stroke: #cc79a7;
         }
     </style>
 </head>
@@ -58,83 +58,57 @@
         <div class="hero-header">
             <div class="container">
 
-                <nav class="nav">
-                    <div class="nav-center">
-                      <div class="nav-item">
-                        <h2 class="title is-2">Covalence</h2>
-                      </div>
+                <nav class="nav" ng-controller="NavController">
+                    <div class="nav-left">
+                        <div class="nav-item">
+                            <h2 class="title is-2">Covalence</h2>
+                        </div>
+                        <a class="nav-item is-tab" ng-class="{ 'is-active': isCurrentPath('/edge') }" href="#!/edge">
+                          Edge Bundling
+                        </a>
+                        <a class="nav-item is-tab" ng-class="{ 'is-active': isCurrentPath('/force') }" href="#!/force">
+                          Force Directed Graph
+                        </a>
                     </div>
                 </nav>
             </div>
         </div>
     </section>
-    <section class="section">
-
-        <div class="hero-body">
-            <div class="container">
-                <div class="columns">
-                    <div class="column is-3">
-                        <aside class="panel" ng-controller="VMsFilterController">
-                            <p class="panel-heading">
-                                Deployments
-                            </p>
-                            <label class="panel-block" ng-repeat="deployment in deployments">
-                                <input type="checkbox"> {{deployment}}
-                            </label>
-                            <div class="panel-block">
-                              <button class="button is-primary is-outlined is-fullwidth">
-                                Reset all filters
-                              </button>
-                            </div>
-                            <p class="panel-heading">
-                                Jobs
-                            </p>
-                            <label class="panel-block" ng-repeat="vm in vms">
-                                <input type="checkbox"> {{vm.job_name}}/{{vm.index}}
-                            </label>
-                            <div class="panel-block">
-                              <button class="button is-primary is-outlined is-fullwidth">
-                                Reset all filters
-                              </button>
-                            </div>
-                        </aside>
-                    </div>
-                    <div class="column">
-                        <div name="d3" class="d3">
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div ng-view></div>
     <!--    <div style="position:absolute;bottom:0;font-size:18px;">tension: <input style="position:relat
 ive;top:3px;" type="range" min="0" max="100" value="85"></div>-->
 
     <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-route.min.js"></script>
     <script type="text/javascript" src="js/md5.min.js"></script>
     <script type="text/javascript" src="js/d3.js"></script>
     <script type="text/javascript" src="js/packages.js"></script>
     <script type="text/javascript" src="js/d3.layout.js"></script>
     <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/app/app.module.js"></script>
+    <script type="text/javascript" src="js/app/app.config.js"></script>
+    <script type="text/javascript" src="js/app/edge-bundling/edge-bundling.module.js"></script>
+    <script type="text/javascript" src="js/app/edge-bundling/edge-bundling.component.js"></script>
+    <script type="text/javascript" src="js/app/force-graph/force-graph.module.js"></script>
+    <script type="text/javascript" src="js/app/force-graph/force-graph.component.js"></script>
     <!--script type="text/javascript" src="js/covalence.js"></script-->
 
 
 </body>
 <footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
-      <p>
-        <strong>Covalence</strong> build by <a href="https://starkandwayne.com">Stark & Wayne</a>. The source code is licensed
-        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
-      </p>
-      <p>
-        <a class="icon" href="https://github.com/starkandwayne/covalence">
-          <i class="fa fa-github"></i>
-        </a>
-      </p>
+    <div class="container">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Covalence</strong> build by <a href="https://starkandwayne.com">Stark & Wayne</a>. The source code is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+            </p>
+            <p>
+                <a class="icon" href="https://github.com/starkandwayne/covalence">
+                    <i class="fa fa-github"></i>
+                </a>
+            </p>
+        </div>
     </div>
-  </div>
 </footer>
+
 </html>
