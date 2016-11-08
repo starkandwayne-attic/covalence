@@ -31,7 +31,7 @@ component('edgeBundling', {
             });
 
         // Chrome 15 bug: <http://code.google.com/p/chromium/issues/detail?id=98951>
-        var div = d3.select("div.d3").insert("div", "h2")
+        var div = d3.select("div.edge").insert("div", "h2")
             .style("top", "0px")
             .style("left", "0px")
             .style("width", w + "px")
