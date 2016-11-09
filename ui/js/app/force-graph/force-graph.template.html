@@ -1,32 +1,45 @@
+<style>
+    .links line {
+        stroke: #999;
+        stroke-opacity: 0.6;
+    }
+
+    .nodes circle {
+        stroke: #fff;
+        stroke-width: 1.5px;
+    }
+
+    text {
+      fill: #000;
+      font: 10px sans-serif;
+      pointer-events: none;
+    }
+</style>
+
 <section class="section">
 
     <div class="hero-body">
         <div class="container">
             <div class="columns">
                 <div class="column is-3">
-                    <aside class="panel">
-                        <p class="panel-heading">
+                    <aside class="menu">
+                        <p class="menu-label">
                             Deployments
                         </p>
-                        <label class="panel-block" ng-repeat="deployment in deployments">
-                            <input type="checkbox"> {{deployment}}
-                        </label>
-                        <div class="panel-block">
-                          <button class="button is-primary is-outlined is-fullwidth">
-                            Reset all filters
-                          </button>
-                        </div>
-                        <p class="panel-heading">
-                            Jobs
-                        </p>
-                        <label class="panel-block" ng-repeat="vm in vms">
-                            <input type="checkbox"> {{vm.job_name}}/{{vm.index}}
-                        </label>
-                        <div class="panel-block">
-                          <button class="button is-primary is-outlined is-fullwidth">
-                            Reset all filters
-                          </button>
-                        </div>
+                        <ul class="menu-list">
+                            <li ng-repeat="(key, deployment) in deployments">
+                              <label class="checkbox">
+                                  <input ng-model="deploymentFilters[key]" ng-change="filterDeployment(key)" type="checkbox"> {{key}}
+                              </label>
+                              <ul>
+                                <li ng-repeat="vm in deployment.vms">
+                                  <label class="checkbox">
+                                      <input ng-model="vmsFilters[vm.job_name + '/' + vm.index]" ng-change="filterVMs(vm.job_name + '/' + vm.index)" type="checkbox"> {{vm.job_name}}/{{vm.index}}
+                                  </label>
+                                </li>
+                              </ul>
+                            </li>
+                        </ul>
                     </aside>
                 </div>
                 <div class="column">
